@@ -3,10 +3,7 @@ import { Text, View } from 'react-native';
 
 import axios from 'axios';
 import { MovieModel } from './Models/MovieModel';
-const getPopularMovies = async () =>{
-  const response = await axios.get("https://api.themoviedb.org/3/movie/popular?api_key=06346bd5142a8959b8b0e8df0606be39")
-  return response.data.results
-}
+import { getPopularMovies } from './services/services';
 
 const App = () => {
 
@@ -15,7 +12,7 @@ const App = () => {
   useEffect(() => {
 
     const result = getPopularMovies()
-    result.then((movie:MovieModel[])=>{
+    result.then((movie:MovieModel)=>{
       setMovies(JSON.parse(JSON.stringify(movie)))
     }).catch(()=>setError("There was a problem with the movies, sorry!"))
 
@@ -29,7 +26,7 @@ const App = () => {
         alignItems: "center"
       }}>
         {error === ""?
-      <Text>Movie name: {movies[10].original_title || "titulo"}</Text>
+      <Text>Movie name: {JSON.stringify(movies[11].original_title) || "titulo"}</Text>
       :
       <Text>Error: {error}</Text>
         }
