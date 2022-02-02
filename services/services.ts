@@ -17,8 +17,6 @@ export const getUpcomingMovies = async ():Promise<MovieModel> => {
       
     }
     
-    // https://api.themoviedb.org/3/tv/popular?api_key=<<api_key>>&language=en-US&page=1
-    
 export const getPopularTv = async () => {
     const response = await axios.get(`${URL_API}/tv/popular?${API_KEY}`)
     return response.data.results
