@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, FlatList } from "react-native";
 
 import { MovieModel } from '../Models/MovieModel';
 import { getPopularMovies, getUpcomingMovies } from '../services/services';
@@ -12,10 +12,11 @@ export const Home = () => {
 
     const [movieImages, setMovieImages] = useState<string[]>([])
     const [movies, setMovies] = useState<MovieModel[]>([])
+    const [popularMovies, setPopularMovies] = useState<MovieModel[]>([])
     const [error, setError] = useState<string>("");
     useEffect(() => {
 
-        getUpcomingMovies().then(() => {
+        getUpcomingMovies().then((movies:MovieModel[]) => {
             const moviesImagesArray:string[] = []
             movies.forEach((movie:MovieModel) =>{
                 moviesImagesArray.push("https://image.tmdb.org/t/p/w500"+movie.poster_path)
@@ -26,8 +27,8 @@ export const Home = () => {
         }).catch(err=> {})
 
         getPopularMovies()
-        .then((movie:MovieModel)=>{
-          setMovies(JSON.parse(JSON.stringify(movie)))
+        .then((movies:MovieModel[])=>{
+          setPopularMovies(movies)
         })
         .catch(()=>setError("There was a problem with the movies, sorry!"))
 
@@ -35,16 +36,23 @@ export const Home = () => {
 
 
     return (
-        
-        <View
-            style={styles.sliderContainer}>
-            <SliderBox 
-                images={movieImages} 
-                sliderBoxHeight={dimension.height/1.5} 
-                autoplay={true}
-                circleLoop={true}
-                dotStyle={styles.sliderStyle}/>
-        </View>
+        <React.Fragment>
+            <View
+                style={styles.sliderContainer}>
+                <SliderBox 
+                    images={movieImages} 
+                    sliderBoxHeight={dimension.height/1.5} 
+                    autoplay={true}
+                    circleLoop={true}
+                    dotStyle={styles.sliderStyle}/>
+            </View>
+            <View style={styles.carousel}>
+                <FlatList 
+                    data={popularMovies} 
+                    renderItem={({item})=>(<Text>{item.title}</Text>)} 
+                    horizontal={true}/>
+            </View>
+        </React.Fragment>
     );
 }
 
@@ -56,5 +64,10 @@ const styles = StyleSheet.create({
     },
     sliderStyle:{
         height: 0
-    }
+    },
+    carousel:{
+        flex: 1,
+        justifyContent: "center",
+        alignItems:"center"
+    },
 })
