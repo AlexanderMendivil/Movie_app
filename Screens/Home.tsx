@@ -6,6 +6,7 @@ import { getPopularMovies, getUpcomingMovies } from '../services/services';
 
 
 import { SliderBox } from "react-native-image-slider-box";
+import { List } from "../Components/List";
 
 const dimension = Dimensions.get("screen")
 export const Home = () => {
@@ -47,10 +48,7 @@ export const Home = () => {
                     dotStyle={styles.sliderStyle}/>
             </View>
             <View style={styles.carousel}>
-                <FlatList 
-                    data={popularMovies} 
-                    renderItem={({item})=>(<Text>{item.title}</Text>)} 
-                    horizontal={true}/>
+                <List title="Mi titulo" data={popularMovies}/>
             </View>
         </React.Fragment>
     );
