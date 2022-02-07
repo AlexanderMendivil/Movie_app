@@ -48,7 +48,7 @@ export const Home = () => {
                     dotStyle={styles.sliderStyle}/>
             </View>
             <View style={styles.carousel}>
-                <List title="Mi titulo" data={popularMovies}/>
+                <List title="Popular Movies" data={popularMovies}/>
             </View>
         </React.Fragment>
     );
