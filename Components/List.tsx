@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, FlatList, StyleSheet } from "react-native";
+import { Card } from "./Card";
 
 export const List = ({ title ,data }) => {
     return (
@@ -10,7 +11,7 @@ export const List = ({ title ,data }) => {
             <View>
                 <FlatList 
                         data={data} 
-                        renderItem={({item})=>(<Text>{item.title}</Text>)} 
+                        renderItem={({ item })=>(<Card item={item}/>)} 
                         horizontal={true}/>
             </View>
         </View>
