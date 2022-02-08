@@ -1,10 +1,20 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Text, Image } from "react-native";
 
+
+const placeHolderImage = require("../Assets/images/placeholder.png");
+
 export const Card = ({ item }) => {
     return (
         <TouchableOpacity style={styles.container}>
-            <Image resizeMode="cover" source={{uri: "https://image.tmdb.org/t/p/w500"+item.poster_path}} style={styles.movieImage}></Image>
+            <Image resizeMode="cover" source={
+                item.poster_path ?
+                {uri: "https://image.tmdb.org/t/p/w500"+item.poster_path}
+                : 
+                placeHolderImage
+                } style={styles.movieImage} 
+                />
+                {!item.poster_path && (<Text style={styles.movieName}>{item.title}</Text>)}
         </TouchableOpacity>
     );
 }
@@ -12,11 +22,19 @@ export const Card = ({ item }) => {
 const styles = StyleSheet.create({
     container:{
         padding: 5,
-        position: "relative"
+        position: "relative",
+        height: 200
     },
     movieImage:{
         height: 200,
         width: 120,
         borderRadius: 20
+    },
+    movieName:{
+        position:"absolute",
+        width: 100,
+        textAlign:"center",
+        alignSelf: "center",
+        top: 10
     }
 })
