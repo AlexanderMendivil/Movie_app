@@ -1,10 +1,11 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Text, Image } from "react-native";
+import { MovieModel } from "../Models/MovieModel";
 
 
 const placeHolderImage = require("../Assets/images/placeholder.png");
 
-export const Card = ({ item }) => {
+export const Card = ({ item }: { item: any }) => {
     return (
         <TouchableOpacity style={styles.container}>
             <Image resizeMode="cover" source={
