@@ -1,8 +1,10 @@
 import React from "react";
 import { Text, View, FlatList, StyleSheet } from "react-native";
+import { MovieModel } from "../Models/MovieModel";
+import { tvModel } from "../Models/tvModel";
 import { Card } from "./Card";
 
-export const List = ({ title ,data }) => {
+export const List = ({ title, data }: { title:string, data: any[] }) => {
     return (
         <View style={style.list}>
             <View>
