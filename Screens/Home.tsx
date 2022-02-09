@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, FlatList } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
 
 import { MovieModel } from '../Models/MovieModel';
-import { getPopularMovies, getUpcomingMovies } from '../services/services';
+import { getFamilyMovies, getPopularMovies, getPopularTv, getUpcomingMovies } from '../services/services';
 
 
 import { SliderBox } from "react-native-image-slider-box";
 import { List } from "../Components/List";
+import { tvModel } from "../Models/tvModel";
 
 const dimension = Dimensions.get("screen")
 export const Home = () => {
 
     const [movieImages, setMovieImages] = useState<string[]>([])
-    const [movies, setMovies] = useState<MovieModel[]>([])
     const [popularMovies, setPopularMovies] = useState<MovieModel[]>([])
+    const [tvSeries, setTvSeries] = useState<tvModel[]>([])
+    const [familyMovies, setFamilyMovies] = useState<MovieModel[]>([])
+
     const [error, setError] = useState<string>("");
     useEffect(() => {
 
@@ -31,25 +34,46 @@ export const Home = () => {
         .then((movies:MovieModel[])=>{
           setPopularMovies(movies)
         })
-        .catch(()=>setError("There was a problem with the movies, sorry!"))
+        .catch( ()=> Alert.alert( "Warning!", "There was a problem with the movies, sorry!" ))
 
+        getPopularTv()
+        .then((series:tvModel[])=>{
+            setTvSeries(series)
+        })
+        .catch( ()=> Alert.alert( "Warning!", "There was a problem with the movies, sorry!" ) )
+        
+        getFamilyMovies()
+        .then((familyMov:MovieModel[])=>{
+            setFamilyMovies(familyMov)
+        })
+        .catch( ()=> Alert.alert( "Warning!", "There was a problem with the movies, sorry!" ) )
   },[])
 
 
     return (
         <React.Fragment>
-            <View
-                style={styles.sliderContainer}>
-                <SliderBox 
-                    images={movieImages} 
-                    sliderBoxHeight={dimension.height/1.5} 
-                    autoplay={true}
-                    circleLoop={true}
-                    dotStyle={styles.sliderStyle}/>
-            </View>
-            <View style={styles.carousel}>
-                <List title="Popular Movies" data={popularMovies}/>
-            </View>
+            <ScrollView>
+
+                <View
+                    style={styles.sliderContainer}>
+                    <SliderBox 
+                        images={movieImages} 
+                        sliderBoxHeight={dimension.height/1.5} 
+                        autoplay={true}
+                        circleLoop={true}
+                        dotStyle={styles.sliderStyle}/>
+                </View>
+                <View style={styles.carousel}>
+                    <List title="Popular Movies" data={popularMovies} />
+                </View>
+                <View style={styles.carousel}>
+                    <List title="Popular Tv Shows" data={tvSeries} />
+                </View>
+                <View style={styles.carousel}>
+                    <List title="Family Movies" data={familyMovies} />
+                </View>
+                
+            </ScrollView>
         </React.Fragment>
     );
 }
