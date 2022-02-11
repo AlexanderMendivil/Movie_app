@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
 
 import { MovieModel } from '../Models/MovieModel';
-import { getFamilyMovies, getPopularMovies, getPopularTv, getUpcomingMovies } from '../services/services';
+import { getDocumentaries, getFamilyMovies, getPopularMovies, getPopularTv, getUpcomingMovies } from '../services/services';
 
 
 import { SliderBox } from "react-native-image-slider-box";
@@ -16,37 +16,38 @@ export const Home = () => {
     const [popularMovies, setPopularMovies] = useState<MovieModel[]>([])
     const [tvSeries, setTvSeries] = useState<tvModel[]>([])
     const [familyMovies, setFamilyMovies] = useState<MovieModel[]>([])
+    const [documentaries, setDocumentaries] = useState<MovieModel[]>([])
 
     const [error, setError] = useState<string>("");
+
+    const getData =  () => {
+        return Promise.all([
+            getUpcomingMovies(),
+            getPopularMovies(),
+            getPopularTv(),            
+            getFamilyMovies(),
+            getDocumentaries()
+        ]);
+    }
     useEffect(() => {
-
-        getUpcomingMovies().then((movies:MovieModel[]) => {
+        getData().then(( [ 
+            upcomingMoviesData, 
+            popularMoviesData, 
+            popularTvData, 
+            familyMoviesData, 
+            documentariesMoviesData 
+        ] )=>{
             const moviesImagesArray:string[] = []
-            movies.forEach((movie:MovieModel) =>{
+            upcomingMoviesData.forEach((movie:MovieModel) =>{
                 moviesImagesArray.push("https://image.tmdb.org/t/p/w500"+movie.poster_path)
-
+                
             })
-            setMovieImages(moviesImagesArray)
-
-        }).catch(err=> {})
-
-        getPopularMovies()
-        .then((movies:MovieModel[])=>{
-          setPopularMovies(movies)
-        })
-        .catch( ()=> Alert.alert( "Warning!", "There was a problem with the movies, sorry!" ))
-
-        getPopularTv()
-        .then((series:tvModel[])=>{
-            setTvSeries(series)
-        })
-        .catch( ()=> Alert.alert( "Warning!", "There was a problem with the movies, sorry!" ) )
-        
-        getFamilyMovies()
-        .then((familyMov:MovieModel[])=>{
-            setFamilyMovies(familyMov)
-        })
-        .catch( ()=> Alert.alert( "Warning!", "There was a problem with the movies, sorry!" ) )
+            setMovieImages(moviesImagesArray);
+            setPopularMovies(popularMoviesData);
+            setTvSeries(popularTvData);
+            setFamilyMovies(familyMoviesData);
+            setDocumentaries(documentariesMoviesData);
+        }).catch((err)=>{setError(err.message)})
   },[])
 
 
@@ -54,7 +55,8 @@ export const Home = () => {
         <React.Fragment>
             <ScrollView>
 
-                <View
+                {movieImages && 
+                (<View
                     style={styles.sliderContainer}>
                     <SliderBox 
                         images={movieImages} 
@@ -63,15 +65,19 @@ export const Home = () => {
                         circleLoop={true}
                         dotStyle={styles.sliderStyle}/>
                 </View>
-                <View style={styles.carousel}>
+                )}
+                {popularMovies && (<View style={styles.carousel}>
                     <List title="Popular Movies" data={popularMovies} />
-                </View>
-                <View style={styles.carousel}>
+                </View>)}
+                {tvSeries && (<View style={styles.carousel}>
                     <List title="Popular Tv Shows" data={tvSeries} />
-                </View>
-                <View style={styles.carousel}>
+                </View>)}
+                {familyMovies && (<View style={styles.carousel}>
                     <List title="Family Movies" data={familyMovies} />
-                </View>
+                </View>)}
+                {documentaries && (<View style={styles.carousel}>
+                    <List title="Documentaries" data={documentaries} />
+                </View>)}
                 
             </ScrollView>
         </React.Fragment>
