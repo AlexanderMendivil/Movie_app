@@ -25,7 +25,14 @@ export const getPopularTv = async ():Promise<tvModel[]> => {
     }
 
 export const getFamilyMovies = async ():Promise<MovieModel[]> => {
-    const response = await axios.get(`${URL_API}/discover/movie?${API_KEY}&with_genre=10751`)
+    const response = await axios.get(`${URL_API}/discover/movie?${API_KEY}&with_genres=10751`)
     return response.data.results
     
     }
+
+export const getDocumentaries = async ():Promise<MovieModel[]> => {
+    const response = await axios.get(`${URL_API}/discover/movie?${API_KEY}&with_genres=99`)
+    return response.data.results
+    
+    }
+
