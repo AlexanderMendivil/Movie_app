@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView, ActivityIndicator } from "react-native";
 
 import { MovieModel } from '../Models/MovieModel';
 import { getDocumentaries, getFamilyMovies, getPopularMovies, getPopularTv, getUpcomingMovies } from '../services/services';
@@ -8,6 +8,7 @@ import { getDocumentaries, getFamilyMovies, getPopularMovies, getPopularTv, getU
 import { SliderBox } from "react-native-image-slider-box";
 import { List } from "../Components/List";
 import { tvModel } from "../Models/tvModel";
+import { Error } from "../Components/Error";
 
 const dimension = Dimensions.get("screen")
 export const Home = () => {
@@ -18,7 +19,8 @@ export const Home = () => {
     const [familyMovies, setFamilyMovies] = useState<MovieModel[]>([])
     const [documentaries, setDocumentaries] = useState<MovieModel[]>([])
 
-    const [error, setError] = useState<string>("");
+    const [error, setError] = useState<boolean>(false);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     const getData =  () => {
         return Promise.all([
@@ -47,13 +49,14 @@ export const Home = () => {
             setTvSeries(popularTvData);
             setFamilyMovies(familyMoviesData);
             setDocumentaries(documentariesMoviesData);
-        }).catch((err)=>{setError(err.message)})
+
+        }).catch(()=>{setError(true)}).finally(()=> setLoaded(true))
   },[])
 
 
     return (
         <React.Fragment>
-            <ScrollView>
+            {loaded && !error && (<ScrollView>
 
                 {movieImages && 
                 (<View
@@ -79,7 +82,11 @@ export const Home = () => {
                     <List title="Documentaries" data={documentaries} />
                 </View>)}
                 
-            </ScrollView>
+            </ScrollView>)
+        }
+            
+        {!loaded &&(<ActivityIndicator size="large" color="#000000" />)}
+        {error && (<Error errorText1="" errorText2=""/>)}
         </React.Fragment>
     );
 }
