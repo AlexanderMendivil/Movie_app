@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Text, Image } from "react-native";
 import { MovieModel } from "../Models/MovieModel";
@@ -6,8 +7,11 @@ import { MovieModel } from "../Models/MovieModel";
 const placeHolderImage = require("../Assets/images/placeholder.png");
 
 export const Card = ({ item }: { item: any }) => {
+
+    const navigation = useNavigation()
+
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate("Detail")}>
             <Image resizeMode="cover" source={
                 item.poster_path ?
                 {uri: "https://image.tmdb.org/t/p/w500"+item.poster_path}
