@@ -24,7 +24,7 @@ const style = StyleSheet.create({
     text:{
         fontSize:20,
         fontWeight: "bold",
-        color: "black",
+        color: "white",
         paddingBottom: 20
     },
     list:{
