@@ -1,5 +1,6 @@
 
 import axios from "axios"
+import { MovieDetailModel } from "../Models/MovieDetailModel"
 import { MovieModel } from "../Models/MovieModel"
 import { tvModel } from "../Models/tvModel"
 
@@ -33,6 +34,12 @@ export const getFamilyMovies = async ():Promise<MovieModel[]> => {
 export const getDocumentaries = async ():Promise<MovieModel[]> => {
     const response = await axios.get(`${URL_API}/discover/movie?${API_KEY}&with_genres=99`)
     return response.data.results
+    
+    }
+
+export const getMovie = async (id: number):Promise<MovieDetailModel> => {
+    const response = await axios.get(`${URL_API}/movie/${id}?${API_KEY}`)
+    return response.data
     
     }
 
