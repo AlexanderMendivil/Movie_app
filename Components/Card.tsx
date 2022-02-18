@@ -11,7 +11,7 @@ export const Card = ({ item }: { item: any }) => {
     const navigation = useNavigation()
 
     return (
-        <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate("Detail",{movieDetail:item})}>
+        <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate("Detail",{movieId:item.id})}>
             <Image resizeMode="cover" source={
                 item.poster_path ?
                 {uri: "https://image.tmdb.org/t/p/w500"+item.poster_path}
