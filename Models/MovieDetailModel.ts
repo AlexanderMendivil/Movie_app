@@ -3,7 +3,7 @@ export interface MovieDetailModel{
     backdrop_path: string | null,
     belongs_to_collection: null | object,
     budget: number,
-    genres: any[],
+    genres: genre[],
     homepage: string | null,
     id: number,
     imdb_id: string | null,
@@ -25,4 +25,9 @@ export interface MovieDetailModel{
     vote_average: number,
     vote_count: number
 
+}
+
+export interface genre{
+    id: number,
+    name: string
 }
