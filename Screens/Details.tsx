@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View, Dimensions, ActivityIndicator } from "react-native";
-import { MovieDetailModel } from "../Models/MovieDetailModel";
+import { genre, MovieDetailModel } from "../Models/MovieDetailModel";
 import { getMovie } from "../services/services";
 
 
@@ -31,6 +31,17 @@ export const Details = ({ route }) => {
                 : 
                 placeHolderImage
                 } style={styles.movieImage} />
+                <View style={styles.container}>
+                <Text style={styles.movieTitle}>{movieDetail.title}</Text>
+                {movieDetail.genres && (
+                <View style={styles.genresContainer}>
+                    {movieDetail.genres.map((genre: genre)=>{return (
+                        <Text style={styles.genre} key={genre.id}>{genre.name}</Text>
+
+                    )})}
+                </View>
+                )}
+                </View>
         </ScrollView>
         )}
         {!loaded &&(<ActivityIndicator size="large" color="#000000" />)}
@@ -39,7 +50,31 @@ export const Details = ({ route }) => {
 }
 
 const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"    
+    },
+
     movieImage:{
         height: height/2,
     },
+
+    movieTitle:{
+        fontSize: 24,
+        fontWeight: "bold",
+        marginTop: 10,
+        marginBottom: 10,
+    },
+
+    genresContainer:{
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 20
+    },
+    genre:{
+        marginRight: 10,
+        marginLeft: 10,
+        fontWeight: "bold"
+    }
 })
