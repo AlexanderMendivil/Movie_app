@@ -3,7 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, View, Dimensions, ActivityIndicato
 import { genre, MovieDetailModel } from "../Models/MovieDetailModel";
 import { getMovie } from "../services/services";
 import StarRating from "react-native-star-rating"
-
+import dateFormat from "dateformat"
 const placeHolderImage = require("../Assets/images/placeholder.png");
 const height = Dimensions.get("screen").height;
 
@@ -42,6 +42,8 @@ export const Details = ({ route }) => {
                 </View>
                 )}
                 <StarRating maxStars={5} rating={movieDetail.vote_average/2} disabled={true} fullStarColor={'gold'} starSize={30}/>
+                <Text style={styles.overview}>{movieDetail.overview}</Text>
+                <Text style={styles.release}>{"Release date: "+dateFormat(movieDetail.release_date, "mmmm, dd, yyyy")}</Text>
                 </View>
         </ScrollView>
         )}
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"    
+        alignItems: "center" ,
     },
 
     movieImage:{
@@ -74,9 +76,19 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20
     },
+
     genre:{
         marginRight: 10,
         marginLeft: 10,
+        fontWeight: "bold"
+    },
+
+    overview:{
+        padding: 15
+
+    },
+
+    release:{
         fontWeight: "bold"
     }
 })
