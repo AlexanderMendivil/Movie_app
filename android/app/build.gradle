@@ -194,11 +194,13 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    compile project(':react-native-video')
+    implementation "androidx.appcompat:appcompat:1.0.0"
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
@@ -229,4 +231,17 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
+subprojects {
+afterEvaluate {project ->
+if (project.hasProperty("android")) {
+android {
+compileOptions {
+sourceCompatibility 1.8
+targetCompatibility 1.8
+}
+}
+}
+}
+}
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
