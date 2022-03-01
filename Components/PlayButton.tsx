@@ -2,10 +2,10 @@ import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-export const PlayButton = () => {
+export const PlayButton = ({ handlePress }) => {
     return (
     <View>
-        <Pressable style={styles.button}>
+        <Pressable onPress={()=>handlePress()} style={styles.button}>
             <Icon name="caret-forward-outline" size={30} color="white"/>
         </Pressable>
     </View>        
