@@ -1,26 +1,41 @@
 import React from "react";
-import { StyleSheet, Text, Platform, StatusBar, View, TouchableOpacity } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, TouchableOpacity, Image } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
+
+export const NavbarHomeRight = ({navigation})  => {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Search');
+          }}>
+          <Icon color={"#fff"} size={30} name={'search-outline'} />
+        </TouchableOpacity>
+      );
+    }
+
+  export const NavbarHomeLeft = ({navigation}) => {
+      return (
+        <Image style={styles.logo} source={require('../Assets/images/movies.png')} />
+      );
+    }
 
 export const Navbar = ({ navigation }) => {
     return (
-        <SafeAreaView style={styles.AndroidSafeArea}>
+        <SafeAreaProvider>
             <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-                <Icon name={"chevron-back"} size={40} color={"#fff"}/>
+                <Icon style={styles.Icon} name={"chevron-back"} size={30} color={"#fff"}/>
             </TouchableOpacity>
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 
 const styles = StyleSheet.create({
-    AndroidSafeArea: {
-        // position:"absolute",
-        // flex:1,
+    logo:{
+        width: 50,
         height: 50,
-        backgroundColor: "black",
-        // top: 20
-        headerMode:"screen"
     },
-  
+    Icon: {
+        paddingLeft: 15
+    }
   });
