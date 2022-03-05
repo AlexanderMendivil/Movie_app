@@ -43,3 +43,11 @@ export const getMovie = async (id: number):Promise<MovieDetailModel> => {
     
     }
 
+export const searchMovieAndTv = async (query: string, type: string):Promise<any> => {
+    const response = await axios.get(`${URL_API}/search/${type}?${API_KEY}%query=${query}`)
+    return response.data
+    
+    }
+
+
+
