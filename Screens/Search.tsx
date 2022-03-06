@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { Card } from "../Components/Card";
+import { searchMovieAndTv } from "../services/services";
+
 export const Search = () => {
 
     const [text, setText] = useState<string>("");
+    const [searchResults, setSearchResults] = useState<any>([]);
 
     const onSubmit = (query: string) =>{
-        console.log(query);
+        searchMovieAndTv(query, "movie").then(( searchData )=>{ 
+            setSearchResults( searchData )});
     }
 
     return (
@@ -20,6 +25,30 @@ export const Search = () => {
                         onPress={() => {onSubmit(text)}}>
                         <Icon size={30} name={'search-outline'} />
                     </TouchableOpacity>
+            </View>
+            <View style={styles.searchItem}>
+                {searchResults && searchResults.length > 0 && (
+                    <FlatList
+                        numColumns={3}
+                        data={searchResults}
+                        renderItem={({item})=>(<Card item={item}/>)}
+                        keyExtractor={item => item.id}
+                    />
+                )}
+
+                {searchResults && searchResults.length == 0 && (
+                    <View style={styles.empty}>
+                        <Text>No results matching your criteria.</Text>
+                        <Text>Try different keywords.</Text>
+                    </View>
+                )}
+                
+                {!searchResults && (
+                    <View style={styles.empty}>
+                        <Text>Type something to start searching.</Text>
+                    </View>
+                )}
+
             </View>
         </SafeAreaView>
     </React.Fragment>
@@ -49,5 +78,13 @@ const styles = StyleSheet.create({
         flexBasis: "auto",
         flexGrow: 1,
         paddingRight: 8
+    },
+
+    searchItem:{
+        padding: 5
+    },
+
+    empty:{
+
     }
 })
