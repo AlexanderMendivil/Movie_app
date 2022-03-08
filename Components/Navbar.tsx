@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, Image } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
+import { Colors } from "../Theme/Colors";
 
 export const NavbarHomeRight = ({navigation})  => {
       return (
@@ -9,7 +10,7 @@ export const NavbarHomeRight = ({navigation})  => {
           onPress={() => {
             navigation.navigate('Search');
           }}>
-          <Icon color={"#fff"} size={30} name={'search-outline'} />
+          <Icon color={Colors.white} size={30} name={'search-outline'} />
         </TouchableOpacity>
       );
     }
@@ -24,7 +25,7 @@ export const Navbar = ({ navigation }) => {
     return (
         <SafeAreaProvider>
             <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-                <Icon style={styles.Icon} name={"chevron-back"} size={30} color={"#fff"}/>
+                <Icon style={styles.Icon} name={"chevron-back"} size={30} color={Colors.white}/>
             </TouchableOpacity>
         </SafeAreaProvider>
     );
