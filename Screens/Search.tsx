@@ -10,8 +10,11 @@ export const Search = () => {
     const [searchResults, setSearchResults] = useState<any>([]);
 
     const onSubmit = (query: string) =>{
-        searchMovieAndTv(query, "movie").then(( searchData )=>{ 
-            setSearchResults( searchData )});
+        Promise.all([searchMovieAndTv(query, "movie"),searchMovieAndTv(query, "tv")])
+        .then(( [movies, tv] )=>{ 
+            const data = [...movies, ...tv];
+            setSearchResults(data);
+        });
     }
 
     return (
