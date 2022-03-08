@@ -9,6 +9,7 @@ import { SliderBox } from "react-native-image-slider-box";
 import { List } from "../Components/List";
 import { tvModel } from "../Models/tvModel";
 import { Error } from "../Components/Error";
+import { Colors } from "../Theme/Colors";
 
 const dimension = Dimensions.get("screen")
 export const Home = () => {
@@ -85,7 +86,7 @@ export const Home = () => {
             </ScrollView>)
         }
             
-        {!loaded &&(<ActivityIndicator size="large" color="#000000" />)}
+        {!loaded &&(<ActivityIndicator size="large" color={Colors.black} />)}
         {error && (<Error errorText1="" errorText2=""/>)}
         </React.Fragment>
     );
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems:"center",
-        backgroundColor: "#141414"
+        backgroundColor: Colors.carousel
         
     },
 })
