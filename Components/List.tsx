@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, FlatList, StyleSheet } from "react-native";
 import { MovieModel } from "../Models/MovieModel";
 import { tvModel } from "../Models/tvModel";
+import { Colors } from "../Theme/Colors";
 import { Card } from "./Card";
 
 export const List = ({ title, data }: { title:string, data: any[] }) => {
@@ -24,8 +25,9 @@ const style = StyleSheet.create({
     text:{
         fontSize:20,
         fontWeight: "bold",
-        color: "white",
-        paddingBottom: 20
+        color: Colors.white,
+        padding: 10,
+        paddingBottom: 15,
     },
     list:{
         marginTop:25
