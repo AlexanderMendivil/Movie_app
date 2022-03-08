@@ -7,6 +7,7 @@ import dateFormat from "dateformat";
 
 import { PlayButton } from "../Components/PlayButton";
 import { Video } from "../Components/Video";
+import { Colors } from "../Theme/Colors";
 
 const placeHolderImage = require("../Assets/images/placeholder.png");
 const height = Dimensions.get("screen").height;
@@ -72,7 +73,7 @@ export const Details = ({ route }) => {
 
         </View>
         )}
-        {!loaded &&(<ActivityIndicator size="large" color="#000000" />)}
+        {!loaded &&(<ActivityIndicator size="large" color={Colors.black} />)}
     </React.Fragment>       
     );
 }
